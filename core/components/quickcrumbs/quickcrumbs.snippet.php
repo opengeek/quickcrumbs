@@ -64,4 +64,3 @@ if (!empty($showSiteStart) && !$siteStartShown) {
 }
 $separator = !empty($separator) ? "\n{$separator}\n" : "&nbsp;&raquo;&nbsp;";
 return implode($separator, $output);
-?>

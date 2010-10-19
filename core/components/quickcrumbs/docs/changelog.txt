@@ -2,4 +2,5 @@ Changelog for QuickCrumbs.
 
 QuickCrumbs 1.0.0-beta (October 11, 2010)
 ====================================
+- [#3] Added docs to transport package so that license is transported with package
 - Initial release.
