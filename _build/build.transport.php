@@ -4,7 +4,7 @@
  *
  * @package QuickCrumbs
  * @version 1.0.0
- * @release beta
+ * @release beta2
  * @author Jason Coward <jason@modx.com>
  */
 $mtime = microtime();
@@ -24,9 +24,9 @@ $root = dirname(dirname(__FILE__)) . '/';
 $sources= array (
     'root' => $root,
     'build' => $root . '_build/',
-    'docs' => $root . 'docs/',
     'source_assets' => $root.'assets/components/'.PKG_NAME_LOWER,
     'source_core' => $root.'core/components/'.PKG_NAME_LOWER,
+    'docs' => $root . 'core/components/'.PKG_NAME_LOWER.'/docs/',
 );
 unset($root);
 
