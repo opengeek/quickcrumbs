@@ -1,5 +1,6 @@
 Changelog for QuickCrumbs.
 
+- [#2] Allow empty separator property
 - [#1] Avoid getting unpublished or deleted Resources in query
 - [#1] Fix bug with showing site_start if showSiteStart is not enabled but siteStartTpl is set
 - [#1] Add toPlaceholder property for setting output in placeholder rather than returning it

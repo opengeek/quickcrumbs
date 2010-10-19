@@ -99,7 +99,7 @@ if (!empty($showSiteStart) && !$siteStartShown) {
     }
     array_unshift($output, $siteStartOutput);
 }
-$separator = !empty($separator) ? "\n{$separator}\n" : "&nbsp;&raquo;&nbsp;";
+$separator = isset($separator) ? "{$separator}" : "&nbsp;&raquo;&nbsp;";
 $output = implode($separator, $output);
 if (!empty($outerTpl)) {
     $output = $modx->getChunk($outerTpl, array('crumbs' => $output));
