@@ -1,6 +1,14 @@
 Changelog for QuickCrumbs.
 
+- [#1] Avoid getting unpublished or deleted Resources in query
+- [#1] Fix bug with showing site_start if showSiteStart is not enabled but siteStartTpl is set
+- [#1] Add toPlaceholder property for setting output in placeholder rather than returning it
+- [#1] Add outerTpl property for defining a chunk to wrap the output
+- [#1] Give selfTpl precedence over siteStartTpl when current page == site_start
+- [#1] Add parentTitles placeholder feature for generating breadcrumb based page titles
+- [#3] Add docs to transport package so license is transported with package
+- [#2] Add missing separator property
+
 QuickCrumbs 1.0.0-beta (October 11, 2010)
 ====================================
-- [#3] Added docs to transport package so that license is transported with package
 - Initial release.

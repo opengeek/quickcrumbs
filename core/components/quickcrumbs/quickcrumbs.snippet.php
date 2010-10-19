@@ -25,7 +25,8 @@
  * @package quickcrumbs
  */
 $output = array();
-$resourceId = $modx->resource->get('id');
+$parentTitles = array();
+$resourceId = (integer) $modx->resource->get('id');
 $fields = empty($fields) ? 'pagetitle,menutitle,description' : $fields;
 $fields = explode(',', $fields);
 foreach ($fields as $fieldKey => $field) $fields[$fieldKey] = trim($field);
@@ -34,8 +35,18 @@ $parents = $modx->getParentIds($resourceId);
 array_pop($parents);
 $parents = array_reverse($parents);
 $siteStartShown = false;
+$siteStart = (integer) $modx->getOption('site_start', null, 1);
+if (empty($siteStartTpl)) {
+    $siteStartTpl = $tpl;
+}
+if (empty($selfTpl)) {
+    $selfTpl = $tpl;
+}
+if ($siteStart == $resourceId && !empty($showSelf)) {
+    $siteStartTpl = $selfTpl;
+}
 if (!empty($parents)) {
-    $query = $modx->newQuery('modResource', array('id:IN' => $parents));
+    $query = $modx->newQuery('modResource', array('id:IN' => $parents, 'published' => 1, 'deleted' => 0));
     $query->select($modx->getSelectColumns('modResource', '', '', $fields));
     $collection = $modx->getCollection('modResource', $query);
     $parent = reset($parents);
@@ -46,16 +57,18 @@ if (!empty($parents)) {
         }
         if ($object) {
             $properties = array_merge($scriptProperties, $object->get($fields));
-            if (!empty($showSiteStart) && (integer) $parent === (integer) $modx->getOption('site_start', null, 1)) {
-                $siteStartTpl = !empty($siteStartTpl) ? $siteStartTpl : $tpl;
-                if (!empty($siteStartTpl)) {
-                    $output[] = $modx->getChunk($siteStartTpl, $properties);
-                } else {
-                    $output[] = "<pre>" . print_r($properties, true) . "</pre>";
+            if ((integer) $parent == $siteStart) {
+                if (!empty($showSiteStart)) {
+                    if (!empty($siteStartTpl)) {
+                        $output[] = $modx->getChunk($siteStartTpl, $properties);
+                    } else {
+                        $output[] = "<pre>" . print_r($properties, true) . "</pre>";
+                    }
+                    $siteStartShown = true;
                 }
-                $siteStartShown = true;
             }
             else {
+                $parentTitles[] = $properties['pagetitle'];
                 if (!empty($tpl)) {
                     $output[] = $modx->getChunk($tpl, $properties);
                 } else {
@@ -66,26 +79,45 @@ if (!empty($parents)) {
         $parent = next($parents);
     }
 }
-if (!empty($showSelf)) {
-    $selfTpl = !empty($selfTpl) ? $selfTpl : $tpl;
+if (!empty($showSelf) && !($resourceId == $siteStart && !empty($showSiteStart))) {
+    $properties = array_merge($scriptProperties, $modx->resource->get($fields));
     if (!empty($selfTpl)) {
-        $output[] = $modx->getChunk($selfTpl, array_merge($scriptProperties, $modx->resource->get($fields)));
+        $output[] = $modx->getChunk($selfTpl, $properties);
     } else {
         $output[] = "<pre>" . print_r($properties, true) . "</pre>";
     }
 }
 if (!empty($showSiteStart) && !$siteStartShown) {
-    $siteStart = (integer) $modx->getOption('site_start', null, 1);
     $query = $modx->newQuery('modResource', $siteStart);
     $query->select($modx->getSelectColumns('modResource', '', '', $fields));
     $siteStartResource = $modx->getObject('modResource', $query);
-    $siteStartTpl = !empty($siteStartTpl) ? $siteStartTpl : $tpl;
+    $properties = array_merge($scriptProperties, $siteStartResource->get($fields));
     if (!empty($siteStartTpl)) {
-        $siteStartOutput = $modx->getChunk($siteStartTpl, array_merge($scriptProperties, $siteStartResource->get($fields)));
+        $siteStartOutput = $modx->getChunk($siteStartTpl, $properties);
     } else {
         $siteStartOutput = "<pre>" . print_r($properties, true) . "</pre>";
     }
     array_unshift($output, $siteStartOutput);
 }
 $separator = !empty($separator) ? "\n{$separator}\n" : "&nbsp;&raquo;&nbsp;";
-return implode($separator, $output);
+$output = implode($separator, $output);
+if (!empty($outerTpl)) {
+    $output = $modx->getChunk($outerTpl, array('crumbs' => $output));
+}
+if (!empty($parentTitlesPlaceholder) && !empty($parentTitles)) {
+    if (empty($titleSeparator)) {
+        $titleSeparator = ' - ';
+    }
+    if (!empty($parentTitlesReversed)) {
+        $parentTitles = array_reverse($parentTitles);
+    }
+    $parentTitles = implode($titleSeparator, $parentTitles);
+    $modx->setPlaceholder($parentTitlesPlaceholder, $titleSeparator . $parentTitles);
+}
+if (!empty($toPlaceholder)) {
+    $modx->setPlaceholder($toPlaceholder, $output);
+    return '';
+}
+else {
+    return $output;
+}

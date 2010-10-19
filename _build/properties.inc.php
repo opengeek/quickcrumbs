@@ -28,6 +28,13 @@ $properties = array(
         'value' => '',
     ),
     array(
+        'name' => 'outerTpl',
+        'desc' => 'Name of an optional chunk serving as wrapper template for the snippet output; not used if empty. The placeholder for the output is set as crumbs, i.e. [[+crumbs]].',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+    ),
+    array(
         'name' => 'fields',
         'desc' => 'The fields to get from the resource as placeholders; NOTE that id, class_key, and context_key are always selected. (DEFAULT: pagetitle,menutitle,description)',
         'type' => 'textfield',
@@ -48,11 +55,41 @@ $properties = array(
         'options' => '',
         'value' => true,
     ),
-		array(
-				'name' => 'separator',
-				'desc' => 'Separator to use (default is &raquo;)',
-				'type' => 'textfield',
-				'options' => '&raquo;'),
+	array(
+        'name' => 'separator',
+        'desc' => 'Separator to use (default is &raquo;)',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '&nbsp;&raquo;&nbsp;'
+    ),
+	array(
+        'name' => 'toPlaceholder',
+        'desc' => 'If set, a placeholder by the specified name with be set containing the output and no output will be returned by this snippet.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => ''
+    ),
+	array(
+        'name' => 'parentTitlesPlaceholder',
+        'desc' => 'If set, pagetitles of all the parent breadcrumbs are compiled and set as a placeholder for use in the content of your Resource.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => ''
+    ),
+	array(
+        'name' => 'parentTitlesReversed',
+        'desc' => 'If set, the pageTitlesPlaceholder output is returned with pagetitles in reverse-order.',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => false
+    ),
+	array(
+        'name' => 'titleSeparator',
+        'desc' => 'A separator to use in between pagetitles used in the pageTitlesPlaceholder.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => ' - ',
+    ),
     array(
         'name' => 'debug',
         'desc' => 'If true, will send the SQL query to the MODx log. Defaults to false.',
