@@ -48,6 +48,11 @@ $properties = array(
         'options' => '',
         'value' => true,
     ),
+		array(
+				'name' => 'separator',
+				'desc' => 'Separator to use (default is &raquo;)',
+				'type' => 'textfield',
+				'options' => '&raquo;'),
     array(
         'name' => 'debug',
         'desc' => 'If true, will send the SQL query to the MODx log. Defaults to false.',
