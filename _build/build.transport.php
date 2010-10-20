@@ -4,7 +4,7 @@
  *
  * @package QuickCrumbs
  * @version 1.0.0
- * @release beta
+ * @release beta2
  * @author Jason Coward <jason@modx.com>
  */
 $mtime = microtime();
@@ -13,12 +13,20 @@ $mtime = $mtime[1] + $mtime[0];
 $tstart = $mtime;
 set_time_limit(0);
 
+/* define package */
+define('PKG_NAME','quickcrumbs');
+define('PKG_NAME_LOWER',strtolower(PKG_NAME));
+define('PKG_VERSION','1.0.0');
+define('PKG_RELEASE','beta2');
+
 /* define sources */
 $root = dirname(dirname(__FILE__)) . '/';
 $sources= array (
     'root' => $root,
     'build' => $root . '_build/',
-    'docs' => $root . 'docs/',
+    'source_assets' => $root.'assets/components/'.PKG_NAME_LOWER,
+    'source_core' => $root.'core/components/'.PKG_NAME_LOWER,
+    'docs' => $root . 'core/components/'.PKG_NAME_LOWER.'/docs/',
 );
 unset($root);
 
@@ -30,16 +38,11 @@ $modx->initialize('mgr');
 $modx->setLogLevel(xPDO::LOG_LEVEL_INFO);
 $modx->setLogTarget(XPDO_CLI_MODE ? 'ECHO' : 'HTML');
 
-/* set package info */
-define('PKG_NAME','quickcrumbs');
-define('PKG_VERSION','1.0.0');
-define('PKG_RELEASE','beta');
-
 /* load builder */
 $modx->loadClass('transport.modPackageBuilder','',false, true);
 $builder = new modPackageBuilder($modx);
 $builder->createPackage(PKG_NAME, PKG_VERSION, PKG_RELEASE);
-//$builder->registerNamespace('quickcrumbs',false,true,'{core_path}components/quickcrumbs/');
+$builder->registerNamespace('quickcrumbs',false,true,'{core_path}components/quickcrumbs/');
 
 /* create snippet object */
 $modx->log(xPDO::LOG_LEVEL_INFO,'Adding in snippet.'); flush();
@@ -47,7 +50,7 @@ $snippet= $modx->newObject('modSnippet');
 $snippet->set('name', 'QuickCrumbs');
 $snippet->set('description', '<strong>'.PKG_VERSION.'-'.PKG_RELEASE.'</strong> A quick and efficient bread crumbs snippet for MODx Revolution');
 $snippet->set('category', 0);
-$snippet->set('snippet', file_get_contents($sources['root'] . 'QuickCrumbs.snippet.php'));
+$snippet->set('snippet', file_get_contents($sources['source_core'] . '/quickcrumbs.snippet.php'));
 $properties = include $sources['build'].'properties.inc.php';
 if (!empty($properties)) {
     $snippet->setProperties($properties);
@@ -61,10 +64,10 @@ $vehicle = $builder->createVehicle($snippet,array(
     xPDOTransport::UPDATE_OBJECT => true,
     xPDOTransport::UNIQUE_KEY => 'name',
 ));
-// $vehicle->resolve('file',array(
-//     'source' => $sources['source_core'],
-//     'target' => "return MODX_CORE_PATH . 'components/';",
-// ));
+$vehicle->resolve('file',array(
+    'source' => $sources['source_core'],
+    'target' => "return MODX_CORE_PATH . 'components/';",
+));
 $builder->putVehicle($vehicle);
 
 /* now pack in the license file, readme and setup options */

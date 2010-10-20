@@ -1,5 +1,0 @@
-Changelog for QuickCrumbs.
-
-QuickCrumbs 1.0.0-beta (October 11, 2010)
-====================================
-- Initial release.
