@@ -4,7 +4,7 @@
  *
  * @package QuickCrumbs
  * @version 1.0.0
- * @release beta2
+ * @release beta3
  * @author Jason Coward <jason@modx.com>
  */
 $mtime = microtime();
@@ -17,7 +17,7 @@ set_time_limit(0);
 define('PKG_NAME','quickcrumbs');
 define('PKG_NAME_LOWER',strtolower(PKG_NAME));
 define('PKG_VERSION','1.0.0');
-define('PKG_RELEASE','beta2');
+define('PKG_RELEASE','beta3');
 
 /* define sources */
 $root = dirname(dirname(__FILE__)) . '/';
