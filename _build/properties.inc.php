@@ -42,6 +42,13 @@ $properties = array(
         'value' => 'pagetitle,menutitle,description',
     ),
     array(
+        'name' => 'tvs',
+        'desc' => 'The template variables to get from the resource as placeholders; Example: mytv; NOTE to use inside template use tv. as prefix, so for mytv the placeholder becomes tv.mytv',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+    ),
+    array(
         'name' => 'showSiteStart',
         'desc' => 'If true, will render the site_start resource as a crumb. (DEFAULT: true)',
         'type' => 'combo-boolean',
