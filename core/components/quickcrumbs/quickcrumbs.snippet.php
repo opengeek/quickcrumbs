@@ -2,7 +2,7 @@
 /**
  * QuickCrumbs
  *
- * Copyright 2010 by MODx, LLC
+ * Copyright 2010, 2011 by MODx, LLC
  *
  * QuickCrumbs is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
@@ -21,7 +21,7 @@
  */
 /**
  * A quick and efficient bread crumbs Snippet for MODx Revolution.
- * 
+ *
  * @package quickcrumbs
  */
 $output = array();
@@ -31,6 +31,9 @@ $fields = empty($fields) ? 'pagetitle,menutitle,description' : $fields;
 $fields = explode(',', $fields);
 foreach ($fields as $fieldKey => $field) $fields[$fieldKey] = trim($field);
 array_unshift($fields, 'id', 'class_key', 'context_key');
+$tvs = empty($tvs) ? '' : $tvs;
+$tvs = explode(',', $tvs);
+foreach ($tvs as $tvKey => $tv) $tvs[$tvKey] = trim($tv);
 $parents = $modx->getParentIds($resourceId);
 array_pop($parents);
 $parents = array_reverse($parents);
@@ -47,6 +50,12 @@ if ($siteStart == $resourceId && !empty($showSelf)) {
 }
 if (!empty($parents)) {
     $query = $modx->newQuery('modResource', array('id:IN' => $parents, 'published' => 1, 'deleted' => 0));
+    if (!empty($hideEmptyContainers)) {
+        $query->where(array(
+            'content:!=' => '',
+            'class_key:NOT IN' => array('modWebLink', 'modSymLink')
+        ));
+    }
     $query->select($modx->getSelectColumns('modResource', '', '', $fields));
     $collection = $modx->getCollection('modResource', $query);
     $parent = reset($parents);
@@ -57,6 +66,9 @@ if (!empty($parents)) {
         }
         if ($object) {
             $properties = array_merge($scriptProperties, $object->get($fields));
+            foreach ($tvs as $tvKey => $tv) {
+                $properties = array_merge($properties, array('tv.'.$tv => $object->getTVValue($tv)));
+            }
             if ((integer) $parent == $siteStart) {
                 if (!empty($showSiteStart)) {
                     if (!empty($siteStartTpl)) {
@@ -81,6 +93,9 @@ if (!empty($parents)) {
 }
 if (!empty($showSelf) && !($resourceId == $siteStart && !empty($showSiteStart))) {
     $properties = array_merge($scriptProperties, $modx->resource->get($fields));
+    foreach ($tvs as $tvKey => $tv) {
+        $properties = array_merge($properties, array('tv.'.$tv => $modx->resource->getTVValue($tv)));
+    }
     if (!empty($selfTpl)) {
         $output[] = $modx->getChunk($selfTpl, $properties);
     } else {
@@ -92,6 +107,9 @@ if (!empty($showSiteStart) && !$siteStartShown) {
     $query->select($modx->getSelectColumns('modResource', '', '', $fields));
     $siteStartResource = $modx->getObject('modResource', $query);
     $properties = array_merge($scriptProperties, $siteStartResource->get($fields));
+    foreach ($tvs as $tvKey => $tv) {
+        $properties = array_merge($properties, array('tv.'.$tv => $siteStartResource->getTVValue($tv)));
+    }
     if (!empty($siteStartTpl)) {
         $siteStartOutput = $modx->getChunk($siteStartTpl, $properties);
     } else {

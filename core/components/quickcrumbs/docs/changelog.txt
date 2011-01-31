@@ -1,5 +1,10 @@
 Changelog for QuickCrumbs.
 
+QuickCrumbs 1.0.0-beta3 (January 31, 2011)
+====================================
+- [#11] Add ability to skip containers with no content (including WebLinks/SymLinks)
+- [#1] Add support for template variables
+
 QuickCrumbs 1.0.0-beta2 (October 19, 2010)
 ====================================
 - [#2] Allow empty separator property

@@ -42,6 +42,13 @@ $properties = array(
         'value' => 'pagetitle,menutitle,description',
     ),
     array(
+        'name' => 'tvs',
+        'desc' => 'The template variables to get from the resource as placeholders; Example: mytv; NOTE to use inside template use tv. as prefix, so for mytv the placeholder becomes tv.mytv',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+    ),
+    array(
         'name' => 'showSiteStart',
         'desc' => 'If true, will render the site_start resource as a crumb. (DEFAULT: true)',
         'type' => 'combo-boolean',
@@ -55,35 +62,35 @@ $properties = array(
         'options' => '',
         'value' => true,
     ),
-	array(
+    array(
         'name' => 'separator',
         'desc' => 'Separator to use (default is &raquo;)',
         'type' => 'textfield',
         'options' => '',
         'value' => '&nbsp;&raquo;&nbsp;'
     ),
-	array(
+    array(
         'name' => 'toPlaceholder',
         'desc' => 'If set, a placeholder by the specified name with be set containing the output and no output will be returned by this snippet.',
         'type' => 'textfield',
         'options' => '',
         'value' => ''
     ),
-	array(
+    array(
         'name' => 'parentTitlesPlaceholder',
         'desc' => 'If set, pagetitles of all the parent breadcrumbs are compiled and set as a placeholder for use in the content of your Resource.',
         'type' => 'textfield',
         'options' => '',
         'value' => ''
     ),
-	array(
+    array(
         'name' => 'parentTitlesReversed',
         'desc' => 'If set, the pageTitlesPlaceholder output is returned with pagetitles in reverse-order.',
         'type' => 'combo-boolean',
         'options' => '',
         'value' => false
     ),
-	array(
+    array(
         'name' => 'titleSeparator',
         'desc' => 'A separator to use in between pagetitles used in the pageTitlesPlaceholder.',
         'type' => 'textfield',
@@ -96,6 +103,13 @@ $properties = array(
         'type' => 'combo-boolean',
         'options' => '',
         'value' => false,
+    ),
+    array(
+        'name' => 'hideEmptyContainers',
+        'desc' => 'If true, will skip Resources that are empty containers (or are WebLink/SymLink) in the breadcrumbs.',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => false
     ),
 );
 
