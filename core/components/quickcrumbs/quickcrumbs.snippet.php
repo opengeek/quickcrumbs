@@ -2,7 +2,7 @@
 /**
  * QuickCrumbs
  *
- * Copyright 2010 by MODx, LLC
+ * Copyright 2010, 2011 by MODx, LLC
  *
  * QuickCrumbs is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
@@ -50,6 +50,12 @@ if ($siteStart == $resourceId && !empty($showSelf)) {
 }
 if (!empty($parents)) {
     $query = $modx->newQuery('modResource', array('id:IN' => $parents, 'published' => 1, 'deleted' => 0));
+    if (!empty($hideEmptyContainers)) {
+        $query->where(array(
+            'content:!=' => '',
+            'class_key:NOT IN' => array('modWebLink', 'modSymLink')
+        ));
+    }
     $query->select($modx->getSelectColumns('modResource', '', '', $fields));
     $collection = $modx->getCollection('modResource', $query);
     $parent = reset($parents);
