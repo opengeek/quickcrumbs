@@ -111,6 +111,13 @@ $properties = array(
         'options' => '',
         'value' => false
     ),
+    array(
+        'name' => 'hideIds',
+        'desc' => 'A list of resource IDs you want to hide from the breadcrumbs.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+    ),
 );
 
 return $properties;

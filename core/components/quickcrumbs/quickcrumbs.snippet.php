@@ -56,6 +56,9 @@ if (!empty($parents)) {
             'class_key:NOT IN' => array('modWebLink', 'modSymLink')
         ));
     }
+    if (!empty($hideIds)) {
+        $query->where(array('id:NOT IN' => explode(',', $hideIds)));
+    }
     $query->select($modx->getSelectColumns('modResource', '', '', $fields));
     $collection = $modx->getCollection('modResource', $query);
     $parent = reset($parents);
