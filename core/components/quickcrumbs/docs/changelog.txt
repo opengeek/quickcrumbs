@@ -1,5 +1,6 @@
 Changelog for QuickCrumbs.
 
+- [#13] Add excludeHidden for excluding Resources hidden from menu
 - [#12] Add hideIds for excluding Resources by id
 
 QuickCrumbs 1.0.0-beta3 (January 31, 2011)

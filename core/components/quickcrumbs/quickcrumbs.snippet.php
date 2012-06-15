@@ -50,6 +50,9 @@ if ($siteStart == $resourceId && !empty($showSelf)) {
 }
 if (!empty($parents)) {
     $query = $modx->newQuery('modResource', array('id:IN' => $parents, 'published' => 1, 'deleted' => 0));
+    if (!empty($excludeHidden)) {
+        $query->where(array('hidemenu' => 0));
+    }
     if (!empty($hideEmptyContainers)) {
         $query->where(array(
             'content:!=' => '',

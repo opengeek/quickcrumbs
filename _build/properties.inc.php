@@ -118,6 +118,13 @@ $properties = array(
         'options' => '',
         'value' => '',
     ),
+    array(
+        'name' => 'excludeHidden',
+        'desc' => 'If true, Resources that are hidden from menus will be skipped in the breadcrumbs.',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => false,
+    ),
 );
 
 return $properties;
