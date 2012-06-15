@@ -85,14 +85,14 @@ $properties = array(
     ),
     array(
         'name' => 'parentTitlesReversed',
-        'desc' => 'If set, the pageTitlesPlaceholder output is returned with pagetitles in reverse-order.',
+        'desc' => 'If set, the parentTitlesPlaceholder output is returned with pagetitles in reverse-order.',
         'type' => 'combo-boolean',
         'options' => '',
         'value' => false
     ),
     array(
         'name' => 'titleSeparator',
-        'desc' => 'A separator to use in between pagetitles used in the pageTitlesPlaceholder.',
+        'desc' => 'A separator to use in between pagetitles used in the parentTitlesPlaceholder.',
         'type' => 'textfield',
         'options' => '',
         'value' => ' - ',
