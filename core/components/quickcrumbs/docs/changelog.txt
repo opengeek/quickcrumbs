@@ -1,5 +1,7 @@
 Changelog for QuickCrumbs.
 
+- [#12] Add hideIds for excluding Resources by id
+
 QuickCrumbs 1.0.0-beta3 (January 31, 2011)
 ====================================
 - [#11] Add ability to skip containers with no content (including WebLinks/SymLinks)
