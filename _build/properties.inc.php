@@ -125,6 +125,27 @@ $properties = array(
         'options' => '',
         'value' => false,
     ),
+    array(
+        'name' => 'maxCrumbs',
+        'desc' => 'The maximum number of crumbs to display between the top crumb and self. Additional crumbs are skipped (see skipTpl and skipFromTop properties). 0 (or an empty string) indicates no maximum limit: the default.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '0',
+    ),
+    array(
+        'name' => 'skipTpl',
+        'desc' => 'The name of a chunk to use for each crumb skipped when maxCrumbs is exceeded.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '0',
+    ),
+    array(
+        'name' => 'skipFromTop',
+        'desc' => 'If true (the default), crumbs will be be skipped from the top crumb when maxCrumbs is exceeded. Otherwise they will be skipped from self.',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => true,
+    ),
 );
 
 return $properties;

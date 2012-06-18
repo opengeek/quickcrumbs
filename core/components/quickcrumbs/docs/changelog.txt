@@ -1,5 +1,6 @@
 Changelog for QuickCrumbs.
 
+- [#8] Use skipTpl for replacing intermediate crumbs > maxCrumbs
 - [#13] Add excludeHidden for excluding Resources hidden from menu
 - [#12] Add hideIds for excluding Resources by id
 

@@ -37,8 +37,11 @@ foreach ($tvs as $tvKey => $tv) $tvs[$tvKey] = trim($tv);
 $parents = $modx->getParentIds($resourceId);
 array_pop($parents);
 $parents = array_reverse($parents);
-$siteStartShown = false;
+array_push($parents, $resourceId);
 $siteStart = (integer) $modx->getOption('site_start', null, 1);
+if (!in_array($siteStart, $parents) && !empty($showSiteStart)) {
+    array_unshift($parents, $siteStart);
+}
 if (empty($siteStartTpl)) {
     $siteStartTpl = $tpl;
 }
@@ -64,6 +67,11 @@ if (!empty($parents)) {
     }
     $query->select($modx->getSelectColumns('modResource', '', '', $fields));
     $collection = $modx->getCollection('modResource', $query);
+    $top = true;
+    $crumb = 1;
+    $maxCrumbs = !empty($maxCrumbs) ? (integer) $maxCrumbs : 0;
+    $totalCrumbs = count($parents);
+    $skip = $maxCrumbs > 0 ? ($totalCrumbs - $maxCrumbs - 2) : 0;
     $parent = reset($parents);
     while ($parent) {
         $object = reset($collection);
@@ -75,53 +83,50 @@ if (!empty($parents)) {
             foreach ($tvs as $tvKey => $tv) {
                 $properties = array_merge($properties, array('tv.'.$tv => $object->getTVValue($tv)));
             }
-            if ((integer) $parent == $siteStart) {
-                if (!empty($showSiteStart)) {
+            $self = $object->get('id') === $resourceId;
+            $skipped = false;
+            if (!$top && !$self && $skip > 0) {
+                if ($skipFromTop) {
+                    if (!empty($skipTpl)) {
+                        $output[] = $modx->getChunk($skipTpl, $properties);
+                    }
+                    $skipped = true;
+                    $skip--;
+                } elseif ($totalCrumbs - $crumb <= $skip) {
+                    if (!empty($skipTpl)) {
+                        $output[] = $modx->getChunk($skipTpl, $properties);
+                    }
+                    $skipped = true;
+                    $skip--;
+                }
+            }
+            if (!$skipped) {
+                if ((integer) $parent == $siteStart && !empty($showSiteStart)) {
                     if (!empty($siteStartTpl)) {
                         $output[] = $modx->getChunk($siteStartTpl, $properties);
                     } else {
                         $output[] = "<pre>" . print_r($properties, true) . "</pre>";
                     }
-                    $siteStartShown = true;
-                }
-            }
-            else {
-                $parentTitles[] = $properties['pagetitle'];
-                if (!empty($tpl)) {
-                    $output[] = $modx->getChunk($tpl, $properties);
+                } elseif ($self && !empty($showSelf)) {
+                    if (!empty($selfTpl)) {
+                        $output[] = $modx->getChunk($selfTpl, $properties);
+                    } else {
+                        $output[] = "<pre>" . print_r($properties, true) . "</pre>";
+                    }
                 } else {
-                    $output[] = "<pre>" . print_r($properties, true) . "</pre>";
+                    $parentTitles[] = $properties['pagetitle'];
+                    if (!empty($tpl)) {
+                        $output[] = $modx->getChunk($tpl, $properties);
+                    } else {
+                        $output[] = "<pre>" . print_r($properties, true) . "</pre>";
+                    }
                 }
             }
         }
         $parent = next($parents);
+        $crumb++;
+        $top = false;
     }
-}
-if (!empty($showSelf) && !($resourceId == $siteStart && !empty($showSiteStart))) {
-    $properties = array_merge($scriptProperties, $modx->resource->get($fields));
-    foreach ($tvs as $tvKey => $tv) {
-        $properties = array_merge($properties, array('tv.'.$tv => $modx->resource->getTVValue($tv)));
-    }
-    if (!empty($selfTpl)) {
-        $output[] = $modx->getChunk($selfTpl, $properties);
-    } else {
-        $output[] = "<pre>" . print_r($properties, true) . "</pre>";
-    }
-}
-if (!empty($showSiteStart) && !$siteStartShown) {
-    $query = $modx->newQuery('modResource', $siteStart);
-    $query->select($modx->getSelectColumns('modResource', '', '', $fields));
-    $siteStartResource = $modx->getObject('modResource', $query);
-    $properties = array_merge($scriptProperties, $siteStartResource->get($fields));
-    foreach ($tvs as $tvKey => $tv) {
-        $properties = array_merge($properties, array('tv.'.$tv => $siteStartResource->getTVValue($tv)));
-    }
-    if (!empty($siteStartTpl)) {
-        $siteStartOutput = $modx->getChunk($siteStartTpl, $properties);
-    } else {
-        $siteStartOutput = "<pre>" . print_r($properties, true) . "</pre>";
-    }
-    array_unshift($output, $siteStartOutput);
 }
 $separator = isset($separator) ? "{$separator}" : "&nbsp;&raquo;&nbsp;";
 $output = implode($separator, $output);
