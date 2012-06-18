@@ -85,14 +85,14 @@ $properties = array(
     ),
     array(
         'name' => 'parentTitlesReversed',
-        'desc' => 'If set, the pageTitlesPlaceholder output is returned with pagetitles in reverse-order.',
+        'desc' => 'If set, the parentTitlesPlaceholder output is returned with pagetitles in reverse-order.',
         'type' => 'combo-boolean',
         'options' => '',
         'value' => false
     ),
     array(
         'name' => 'titleSeparator',
-        'desc' => 'A separator to use in between pagetitles used in the pageTitlesPlaceholder.',
+        'desc' => 'A separator to use in between pagetitles used in the parentTitlesPlaceholder.',
         'type' => 'textfield',
         'options' => '',
         'value' => ' - ',
@@ -110,6 +110,41 @@ $properties = array(
         'type' => 'combo-boolean',
         'options' => '',
         'value' => false
+    ),
+    array(
+        'name' => 'hideIds',
+        'desc' => 'A list of resource IDs you want to hide from the breadcrumbs.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+    ),
+    array(
+        'name' => 'excludeHidden',
+        'desc' => 'If true, Resources that are hidden from menus will be skipped in the breadcrumbs.',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => false,
+    ),
+    array(
+        'name' => 'maxCrumbs',
+        'desc' => 'The maximum number of crumbs to display between the top crumb and self. Additional crumbs are skipped (see skipTpl and skipFromTop properties). 0 (or an empty string) indicates no maximum limit: the default.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '0',
+    ),
+    array(
+        'name' => 'skipTpl',
+        'desc' => 'The name of a chunk to use for each crumb skipped when maxCrumbs is exceeded.',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '0',
+    ),
+    array(
+        'name' => 'skipFromTop',
+        'desc' => 'If true (the default), crumbs will be be skipped from the top crumb when maxCrumbs is exceeded. Otherwise they will be skipped from self.',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => true,
     ),
 );
 
