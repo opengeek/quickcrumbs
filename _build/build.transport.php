@@ -3,8 +3,6 @@
  * QuickCrumbs
  *
  * @package QuickCrumbs
- * @version 1.0.0
- * @release beta3
  * @author Jason Coward <jason@modx.com>
  */
 $mtime = microtime();
@@ -17,7 +15,7 @@ set_time_limit(0);
 define('PKG_NAME','quickcrumbs');
 define('PKG_NAME_LOWER',strtolower(PKG_NAME));
 define('PKG_VERSION','1.0.0');
-define('PKG_RELEASE','beta3');
+define('PKG_RELEASE','pl');
 
 /* define sources */
 $root = dirname(dirname(__FILE__)) . '/';
@@ -74,6 +72,7 @@ $builder->putVehicle($vehicle);
 $builder->setPackageAttributes(array(
     'license' => file_get_contents($sources['docs'] . 'license.txt'),
     'readme' => file_get_contents($sources['docs'] . 'readme.txt'),
+    'changelog' => file_get_contents($sources['docs'] . 'changelog.txt'),
 ));
 
 /* zip up the package */

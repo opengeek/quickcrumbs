@@ -2,7 +2,7 @@
 /**
  * QuickCrumbs
  *
- * Copyright 2010, 2011 by MODx, LLC
+ * Copyright 2010-2012 by MODx, LLC
  *
  * QuickCrumbs is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
