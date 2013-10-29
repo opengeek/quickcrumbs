@@ -113,6 +113,8 @@ if (!empty($parents)) {
                     } else {
                         $output[] = "<pre>" . print_r($properties, true) . "</pre>";
                     }
+                } elseif ($self && !$showSelf) {
+                    //do nothing
                 } else {
                     $parentTitles[] = $properties['pagetitle'];
                     if (!empty($tpl)) {
