@@ -26,7 +26,8 @@
  */
 $output = array();
 $parentTitles = array();
-$resourceId = (integer) $modx->resource->get('id');
+if(!$resourceId){
+$resourceId = (integer) $modx->resource->get('id');}
 $fields = empty($fields) ? 'pagetitle,menutitle,description' : $fields;
 $fields = explode(',', $fields);
 foreach ($fields as $fieldKey => $field) $fields[$fieldKey] = trim($field);
